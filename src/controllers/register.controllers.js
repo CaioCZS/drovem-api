@@ -1,13 +1,8 @@
-import { db } from "../database/db.connection.js"
+import { dbRegisterStudent } from "../repository/dbRegisterStudent.js"
 
 export async function registerStudent(req, res) {
-  const { name, cpf, email, picture } = req.body
-
   try {
-    await db.query(
-      `INSERT INTO students (name,cpf,email,picture) VALUES ($1,$2,$3,$4)`,
-      [name, cpf, email, picture]
-    )
+    await dbRegisterStudent(req.body)
     res.sendStatus(201)
   } catch (err) {
     if (err.code === "23505") {
@@ -19,6 +14,6 @@ export async function registerStudent(req, res) {
         return res.status(409).send("E-mail já cadastrado")
       }
     }
-    res.status(500).send(err)
+    res.status(500).send(err.message)
   }
 }
