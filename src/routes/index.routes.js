@@ -1,8 +1,8 @@
 import { Router } from "express"
-import registerRouter from "./register.routes.js"
+import studentsRouter from "./students.routes.js"
 
 const router = Router()
 
-router.use(registerRouter)
+router.use(studentsRouter)
 
 export default router
