@@ -9,6 +9,17 @@ export function dbRegisterStudent(body) {
   )
 }
 
+export function dbAddStudentToClass(id, classId) {
+  return db.query(
+    `INSERT INTO experiences ("studentId","classId","startDate") VALUES ($1,$2,now())`,
+    [id, classId]
+  )
+}
+
+export function dbGetStudentByCpf(cpf) {
+  return db.query(`SELECT * FROM students WHERE cpf=$1;`, [cpf])
+}
+
 export function dbGetStudentById(id) {
   return db.query(`SELECT * FROM students WHERE id=$1;`, [id])
 }

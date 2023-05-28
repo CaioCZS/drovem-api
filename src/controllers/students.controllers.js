@@ -3,11 +3,18 @@ import {
   dbGetStudentById,
   dbGetStudentsByClass,
   dbRegisterStudent,
+  dbGetStudentByCpf,
+  dbAddStudentToClass,
 } from "../repository/dbStudents.js"
 
 export async function registerStudent(req, res) {
+  const { cpf, classId } = req.body
+
   try {
     await dbRegisterStudent(req.body)
+    const { rows: student } = await dbGetStudentByCpf(cpf)
+
+    await dbAddStudentToClass(student[0].id, classId)
     res.sendStatus(201)
   } catch (err) {
     if (err.code === "23505") {
