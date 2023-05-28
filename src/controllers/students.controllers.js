@@ -8,13 +8,13 @@ import {
 } from "../repository/dbStudents.js"
 
 export async function registerStudent(req, res) {
-  const { cpf, classId } = req.body
+  const { cpf, classId, startDate } = req.body
 
   try {
     await dbRegisterStudent(req.body)
     const { rows: student } = await dbGetStudentByCpf(cpf)
 
-    await dbAddStudentToClass(student[0].id, classId)
+    await dbAddStudentToClass(student[0].id, classId, startDate)
     res.sendStatus(201)
   } catch (err) {
     if (err.code === "23505") {

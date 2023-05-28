@@ -9,10 +9,10 @@ export function dbRegisterStudent(body) {
   )
 }
 
-export function dbAddStudentToClass(id, classId) {
+export function dbAddStudentToClass(id, classId, startDate) {
   return db.query(
-    `INSERT INTO experiences ("studentId","classId","startDate") VALUES ($1,$2,now())`,
-    [id, classId]
+    `INSERT INTO experiences ("studentId","classId","startDate") VALUES ($1,$2,$3)`,
+    [id, classId, startDate]
   )
 }
 
