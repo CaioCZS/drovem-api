@@ -51,11 +51,11 @@ export async function getStudentsById(req, res) {
     const { rows: student } = await dbGetStudentById(id)
 
     if (student.length === 0) {
-      return res.send(404).send("Aluno não encontrado")
+      return res.status(404).send("Aluno não encontrado")
     }
     const { rows: experiences } = await dbGetExperiencesStudent(id)
 
-    res.send({ ...student[0], experiences: { ...experiences } })
+    res.send({ ...student[0], experiences: [...experiences] })
   } catch (err) {
     res.status(500).send(err.message)
   }
