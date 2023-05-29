@@ -1,4 +1,8 @@
-import { dbAddProject, dbGetProjects } from "../repository/dbProjects.js"
+import {
+  dbAddProject,
+  dbGetProjects,
+  dbPostDelivery,
+} from "../repository/dbProjects.js"
 
 export async function PostProject(req, res) {
   const { name } = req.body
@@ -16,6 +20,15 @@ export async function GetProjects(req, res) {
     const { rows: result } = await dbGetProjects()
 
     res.send(result)
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
+}
+
+export async function PostDelivery(req, res) {
+  try {
+    await dbPostDelivery(req.body)
+    res.sendStatus(201)
   } catch (err) {
     res.status(500).send(err.message)
   }
