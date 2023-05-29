@@ -36,7 +36,7 @@ export function dbGetExperiencesStudent(id) {
 
 export function dbGetStudentsByClass(id) {
   return db.query(
-    `SELECT experiences.*,students.name FROM experiences 
+    `SELECT experiences.*,students.name,students.picture FROM experiences 
   JOIN students ON students.id = experiences."studentId"
   WHERE experiences."classId" =$1 AND experiences."endDate" is null
   ;`,
