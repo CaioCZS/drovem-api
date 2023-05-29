@@ -5,6 +5,7 @@ import {
   dbRegisterStudent,
   dbGetStudentByCpf,
   dbAddStudentToClass,
+  dbEditStudent,
 } from "../repository/dbStudents.js"
 
 export async function registerStudent(req, res) {
@@ -58,5 +59,25 @@ export async function getStudentsById(req, res) {
     res.send({ ...student[0], experiences: [...experiences] })
   } catch (err) {
     res.status(500).send(err.message)
+  }
+}
+
+export async function editStudent(req, res) {
+  const { id } = req.params
+
+  try {
+    await dbEditStudent(req.body, id)
+    res.sendStatus(204)
+  } catch (err) {
+    if (err.code === "23505") {
+      if (err.constraint === "students_cpf_key") {
+        return res.status(409).send("CPF já cadastrado")
+      }
+
+      if (err.constraint === "students_email_key") {
+        return res.status(409).send("E-mail já cadastrado")
+      }
+    }
+    res.status(500).send(err)
   }
 }

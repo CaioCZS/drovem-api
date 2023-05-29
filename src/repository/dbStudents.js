@@ -43,3 +43,15 @@ export function dbGetStudentsByClass(id) {
     [id]
   )
 }
+
+export function dbEditStudent(body, id) {
+  const { name, email, cpf, picture } = body
+
+  return db.query(
+    `
+  UPDATE students SET name=$1,cpf=$2,email=$3,picture=$4
+    WHERE id=$5;
+  `,
+    [name, cpf, email, picture, id]
+  )
+}
